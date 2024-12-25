@@ -60,7 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const addTrash = () => {
         // How many trash to generate at same time
         //const trashCount = generateRandomNumberInLimits(3);
-        const trashCount = 3;
+        const trashCount = 2;
 
         gameContainer.insertAdjacentHTML('beforeend', makeTrashElements(trashCount));
 
