@@ -25,6 +25,10 @@
     width: 3.5rem;
 }
 
+.h-18 {
+    height: 4.5rem;
+}
+
 .w-18 {
     width: 4.5rem;
 }
@@ -51,4 +55,8 @@
 
 .bg-lightgreen {
     background-color: #8BAD57;
+}
+
+.min-w-max-content {
+    min-width: max-content;
 }

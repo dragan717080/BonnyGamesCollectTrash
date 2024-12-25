@@ -18,6 +18,7 @@
 .trash {
   transform: rotateX(40deg) translateY(-50%);
   transform-origin: center;
+  /* 2222220s */
   animation: moveLeft 2222220s linear infinite;
 }
 
