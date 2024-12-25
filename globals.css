@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row-h {
+    display: flex;
+    justify-content: center;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+}
+
+.w-14 {
+    width: 3.5rem;
+}
+
+.w-18 {
+    width: 4.5rem;
+}
+
+.h-22 {
+    height: 5.5rem;
+}
+
+.w-22 {
+    width: 5.5rem;
+}
+
+.w-25 {
+    width: 6.5625rem;
+}
+
+.h-265 {
+    height: 6.625rem;
+}
+
+.w-30 {
+    width: 7.5rem;
+}
+
+.bg-lightgreen {
+    background-color: #8BAD57;
+}

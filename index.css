@@ -1,0 +1,29 @@
+#game-container {
+  background-image: url("./images/bg-main.png");
+  background-position-x: right;
+  animation: scrollBackground 280s linear infinite;
+}
+
+@keyframes scrollBackground {
+  from {
+    background-position: 0 0;
+  }
+
+  /* Use negative width if you want it to flow right to left else and positive for left to right */
+  to {
+    background-position: -10000px 0;
+  }
+}
+
+.trash {
+  transform: rotateX(40deg) translateY(-50%);
+  transform-origin: center;
+  animation: moveLeft 2222220s linear infinite;
+}
+
+@keyframes moveLeft {
+  /* Move trash to left */
+  to {
+    transform: translate(-1000px, -50%);
+  }
+}
