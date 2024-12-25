@@ -84,15 +84,37 @@ window.addEventListener('DOMContentLoaded', () => {
         trashImages.forEach((trashImage, imageIndex) => {
           //console.log(trashImage);
 
-          trashImage.addEventListener('dragstart', (event) => {
+          trashImage.addEventListener('dragstart', (e) => {
             draggedImageSrc = trashImage.src;
             movedTrashIndex = imageIndex;
-            console.log('Event:', event);
+            console.log('Event:', e);
 
             console.log(`drag image with index ${imageIndex}`);
 
             // Get initial position of the mouse
-            event.dataTransfer.setDragImage(trashImage, 50, 50); // Optional: adjust the drag image position
+            e.dataTransfer.setDragImage(trashImage, 50, 50); // Optional: adjust the drag image position
+          });
+          // Add mobile screens touch listener
+          trashImage.addEventListener('touchmove', (e) => {
+            //console.log('touch event:', e);
+            const touchLocation = e.targetTouches[0];
+            const touchTarget = touchLocation.target;
+            console.log(touchTarget)
+            
+            trashImage.style.left = touchLocation.pageX + 'px';
+            trashImage.style.top = touchLocation.pageY + 'px';
+            //console.log(touchLocation);;
+            
+            
+          });
+
+          trashImage.addEventListener('touchend', (e) => {
+            console.log('touch ended');
+            console.log('touch end event:', e);
+            console.log(e.target);
+            console.log(e.targetTouches);
+            
+            
           });
         });
 
@@ -141,7 +163,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       addTrash();
 
-      setInterval(addTrash, 132500);
+      setInterval(addTrash, 13223232500);
 
       setInterval(checkIfLeftTheViewport, 500);
     }
