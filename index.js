@@ -14,11 +14,11 @@ const makeTrashElements = (trashCount) => {
           <img src='./images/trash-${num1}.png' class='absolute top-1/2 -left-4 -translate-y-1/2 h-22 w-25 max-w-none' alt='Trash'>  
         </div>`
     : trashCount === 2
-      ? `<div class='flex flex-col space-y-3 top-1/2 -translate-y-1/2 right-2'>
-          <div class='trash absolute top-1/2 right-0 h-20 w-20 bg-lightgreen rounded-full'>
+      ? `<div class='flex flex-col space-y-3 absolute top-1/2 -translate-y-1/2 right-2'>
+          <div class='trash top-1/2 right-0 h-20 w-20 bg-lightgreen rounded-full'>
             <img src='./images/trash-${num1}.png' class='absolute top-1/2 -left-4 -translate-y-1/2 h-22 w-25 max-w-none' alt='Trash'>  
           </div>
-          <div class='trash absolute top-1/2 right-0 h-20 w-20 bg-lightgreen rounded-full'>
+          <div class='trash top-1/2 right-0 h-20 w-20 bg-lightgreen rounded-full'>
             <img src='./images/trash-${num2}.png' class='absolute top-1/2 -left-4 -translate-y-1/2 h-22 w-25 max-w-none' alt='Trash'>  
           </div>
         </div>`
