@@ -113,26 +113,7 @@ window.addEventListener('DOMContentLoaded', () => {
           });
           // Add mobile screens touch listener
           trashImage.addEventListener('touchmove', (e) => handleTouchMove(e, trashImage, imageIndex, startX, startY));
-
-          trashImage.addEventListener('touchend', (e) => {
-            //console.log('touch end event:', e);
-            //console.log(e.target);
-            //console.log(e.targetTouches);
-
-
-          });
         });
-
-        // Function to handle dragover event on bins
-        const handleDragOver = (e) => {
-          e.preventDefault(); // This is required to allow a drop event to happen
-        };
-
-        binOne.addEventListener('dragover', handleDragOver);  // Enable dropping in bin-1
-        binTwo.addEventListener('dragover', handleDragOver);  // Enable dropping in bin-2
-
-        binOne.addEventListener('drop', (e) => handleDrop(e, 'bin-1'));  // Handle drop in bin-1
-        binTwo.addEventListener('drop', (e) => handleDrop(e, 'bin-2'));  // Handle drop in bin-2
       }
 
       // Handle drop event for bin-1
