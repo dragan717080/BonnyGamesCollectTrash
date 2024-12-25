@@ -23,13 +23,13 @@ const makeTrashElements = (trashCount) => {
           </div>
         </div>`
       : `<div class='flex flex-col space-y-3 absolute top-1/2 -translate-y-1/2 right-2'>
-          <div class='trash h-18 w-18 bg-lightgreen rounded-full'>
+          <div class='trash h-18 w-18 bg-lightgreen rounded-full -ml-5'>
             <img src='./images/trash-${num1}.png' class='absolute top-1/2 -left-1.5 -translate-y-1/2 min-h-18 h-18 w-20 max-w-none' alt='Trash'>
           </div>
           <div class='trash h-18 w-18 bg-lightgreen rounded-full'>
             <img src='./images/trash-${num2}.png' class='absolute top-1/2 -left-1.5 -translate-y-1/2 min-h-18 h-18 w-20 max-w-none' alt='Trash'>
           </div>
-          <div class='trash h-18 w-18 bg-lightgreen rounded-full'>
+          <div class='trash h-18 w-18 bg-lightgreen rounded-full ml-5'>
             <img src='./images/trash-${num3}.png' class='absolute top-1/2 -left-1.5 -translate-y-1/2 min-h-18 h-18 w-20 max-w-none' alt='Trash'>
           </div>
         </div>`
@@ -38,6 +38,7 @@ const makeTrashElements = (trashCount) => {
 window.addEventListener('DOMContentLoaded', () => {
   /** Start game, and create trash to put into buckets. */
   const game = () => {
+    let lives = 100000000000;
     const gameContainer = document.getElementById('game-container');
     let position = 0;
     const speed = 0;
@@ -55,7 +56,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const generateTrash = async () => {
       const { width: w, height: h } = gameContainer.getBoundingClientRect();
       let ticks = 0;
-      let draggedImageSrc;
       // Which trash was put into the basket
       let movedTrashIndex;
       const binOne = document.getElementById('bin-1');
@@ -73,8 +73,11 @@ window.addEventListener('DOMContentLoaded', () => {
         // After trash is no longer visible, remove it
         ticks++;
 
-        trashElements = Array.from(document.getElementsByClassName('trash'));
-        //console.log('new trash elements:', trashElements);
+        console.log(trashElements?.map(element => element.style.opacity));
+        console.log('recomputing trash e');
+        trashElements = Array.from(document.getElementsByClassName('trash'))
+          .filter(element => window.getComputedStyle(element).opacity > 0);
+        console.log('new trash elements:', trashElements);
 
         // Remove oldest element
         /*         if (ticks > 7) {
@@ -101,49 +104,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
           //console.log(trashImage);
 
-          trashImage.addEventListener('dragstart', (e) => {
-            draggedImageSrc = trashImage.src;
-            movedTrashIndex = imageIndex;
-            console.log('Event:', e);
-
-            console.log(`drag image with index ${imageIndex}`);
-
-            // Get initial position of the mouse
-            e.dataTransfer.setDragImage(trashImage, 50, 50); // Optional: adjust the drag image position
-          });
           // Add mobile screens touch listener
           trashImage.addEventListener('touchmove', (e) => handleTouchMove(e, trashImage, imageIndex, startX, startY));
         });
       }
 
-      // Handle drop event for bin-1
-      const handleDrop = (e, binId) => {
-        e.preventDefault();
-        console.log(draggedImageSrc); // Find the dragged image element
-
-        if (draggedImageSrc) {
-          // Remove the trash image after it's dropped
-          console.log('old trash:', document.getElementsByClassName('trash'));
-          console.log('moved trash index:', movedTrashIndex);
-          trashElements.splice(movedTrashIndex, 1);
-          trashImages.splice(movedTrashIndex, 1);
-          document.getElementsByClassName('trash')[movedTrashIndex].remove();
-          console.log('new trash:', document.getElementsByClassName('trash'));
-          console.log(`Trash dropped in ${binId}`);
-        }
-      };
-
       /** If trash left the viewport, remove it. */
       const checkIfLeftTheViewport = () => {
-        trashImages.forEach((image, leftViewportIndex) => {
-          // To do: remove
-          if (leftViewportIndex !== 0) return;
-          if (image.getBoundingClientRect().right < 0) {
-            trashElements.splice(movedTrashIndex, 1);
-            trashImages.splice(movedTrashIndex, 1);
-            trashElements.splice(movedTrashIndex, 1);
-            trashImages.splice(movedTrashIndex, 1);
-            document.getElementsByClassName('trash')[leftViewportIndex].remove();
+        const outOfViewportCount = trashImages.reduce((acc, x) => acc + Number(!(x.style.opacity === '')), 0);
+        //console.log('elements out of viewport:', outOfViewportCount);
+        trashImages.forEach(async (image, leftViewportIndex) => {
+          console.log(typeof(trashElements[leftViewportIndex].style.opacity));
+          const notHidden = trashElements[leftViewportIndex].style.opacity === '';
+          if (image.getBoundingClientRect().right < 0 && notHidden) {
+            lives--;
+            //console.log('You have', lives, 'left');
+            trashElements.splice(leftViewportIndex, 1);
+            trashImages.splice(leftViewportIndex, 1);
+            document.getElementsByClassName('trash')[leftViewportIndex].style.opacity = 0;
+            console.log('removing with index', leftViewportIndex);
+            console.log('There are', trashElements.length, 'trash elements left');
+            const livesElement = document.getElementById('lives');
+            livesElement.innerText = lives;
           }
         });
       }
@@ -218,7 +200,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Hit bin, remove image
         if (isInBin && isInBinY) {
-          image.parentNode.remove();
+          image.parentNode.style.opacity = 0;
           console.log('%cremoved', 'color:red; font-size:16px');
           console.log('removing with image index', imageIndex);
           trashElements.splice(imageIndex, 1);
@@ -232,9 +214,9 @@ window.addEventListener('DOMContentLoaded', () => {
       addTrash();
 
       // 1232323500
-      setInterval(addTrash, 1232323500);
+      setInterval(addTrash, 3500);
 
-      setInterval(checkIfLeftTheViewport, 500);
+      setInterval(checkIfLeftTheViewport, 251);
     }
 
     animateBackground();
