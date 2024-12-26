@@ -73,11 +73,11 @@ window.addEventListener('DOMContentLoaded', () => {
         // After trash is no longer visible, remove it
         ticks++;
 
-        console.log(trashElements?.map(element => element.style.opacity));
-        console.log('recomputing trash e');
+        //console.log(trashElements?.map(element => element.style.opacity));
+        //console.log('recomputing trash elements');
         trashElements = Array.from(document.getElementsByClassName('trash'))
-          .filter(element => window.getComputedStyle(element).opacity > 0);
-        console.log('new trash elements:', trashElements);
+          //.filter(element => window.getComputedStyle(element).opacity > 0);
+        //console.log('new trash elements:', trashElements);
 
         // Remove oldest element
         /*         if (ticks > 7) {
@@ -86,7 +86,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Add drag and drop for images
         trashImages = Array.from(trashElements.map(trashElement => trashElement.getElementsByTagName('img')[0]));
-        console.log('trash elements len:', trashElements.length);
+        //console.log('trash elements len:', trashElements.length);
         //console.log('Trash elements:', trashElements);
         //console.log(trashImages);
 
@@ -114,16 +114,15 @@ window.addEventListener('DOMContentLoaded', () => {
         const outOfViewportCount = trashImages.reduce((acc, x) => acc + Number(!(x.style.opacity === '')), 0);
         //console.log('elements out of viewport:', outOfViewportCount);
         trashImages.forEach(async (image, leftViewportIndex) => {
-          console.log(typeof(trashElements[leftViewportIndex].style.opacity));
           const notHidden = trashElements[leftViewportIndex].style.opacity === '';
           if (image.getBoundingClientRect().right < 0 && notHidden) {
             lives--;
             //console.log('You have', lives, 'left');
-            trashElements.splice(leftViewportIndex, 1);
-            trashImages.splice(leftViewportIndex, 1);
+            //trashElements.splice(leftViewportIndex, 1);
+            //trashImages.splice(leftViewportIndex, 1);
             document.getElementsByClassName('trash')[leftViewportIndex].style.opacity = 0;
-            console.log('removing with index', leftViewportIndex);
-            console.log('There are', trashElements.length, 'trash elements left');
+            //console.log('removing with index', leftViewportIndex);
+            //console.log('There are', trashElements.length, 'trash elements left');
             const livesElement = document.getElementById('lives');
             livesElement.innerText = lives;
           }
@@ -135,13 +134,15 @@ window.addEventListener('DOMContentLoaded', () => {
         //console.log('touch event:', e);
         const touchLocation = e.targetTouches[0];
         const touchTarget = touchLocation.target;
-        console.log(touchTarget);
+        //console.log(touchTarget);
         const { width: startWidth, height: startHeight } = trashImage.getBoundingClientRect();
+        // Stop moving it right
+        trashImage.style.animation = 'none';
+        trashImage.parentNode.style.animation = 'none';
+        console.log(trashImage.style.animation);
 
-        console.log('start left:', trashImage.style.left);
-        console.log('start:', startHeight, startWidth);
+        //console.log('start:', startHeight, startWidth);
         trashImage.parentNode?.classList.remove('bg-lightgreen');
-
 
         const newLocationLeft = touchLocation.pageX;
         const newLocationTop = touchLocation.pageY;
@@ -168,7 +169,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const binElement = isBinOne ? binOne : binTwo;
         const { height: binHeight, width: binWidth, top: binTop, bottom: binBottom, left: binLeft, right: binRight } = binElement.getBoundingClientRect();
 
-        console.log('starting bin coordinates:', binElement.getBoundingClientRect());
+        //console.log('starting bin coordinates:', binElement.getBoundingClientRect());
 
         // Roughly between 35% and 70% on X axis and 5% and 15% of bin on Y axis is where u put trash
         const leftMargin = binLeft + binWidth * 0.35;
@@ -176,10 +177,11 @@ window.addEventListener('DOMContentLoaded', () => {
         const topMargin = binTop + binHeight * 0.05;
         const bottomMargin = binTop + binHeight * 0.2;
         if (!isBinOne) {
-          console.log('LEFT MARGIN:', leftMargin);
+          console.log('X between', leftMargin, 'and', rightMargin, 'and Y between', topMargin, 'and', bottomMargin);
+/*           console.log('LEFT MARGIN:', leftMargin);
           console.log('RIGHT MARGIN:', rightMargin);
           console.log('TOP MARGIN:', topMargin);
-          console.log('BOTTOM MARGIN:', bottomMargin);
+          console.log('BOTTOM MARGIN:', bottomMargin); */
         }
 
         console.log('trash image left:', trashImageLeft, 'trash image top:', trashImageTop);
@@ -201,7 +203,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // Hit bin, remove image
         if (isInBin && isInBinY) {
           image.parentNode.style.opacity = 0;
-          console.log('%cremoved', 'color:red; font-size:16px');
+          console.log('%cremoved', 'color:red; font-size:32px');
           console.log('removing with image index', imageIndex);
           trashElements.splice(imageIndex, 1);
           trashImages.splice(imageIndex, 1);

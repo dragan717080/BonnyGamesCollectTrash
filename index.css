@@ -19,7 +19,11 @@
   transform: rotateX(40deg) translateY(-50%);
   transform-origin: center;
   /* 2222220s */
-  animation: moveLeft 20s linear infinite;
+  animation: moveLeft 2222220s linear infinite;
+}
+
+.trash:nth-child(-n+6) {
+  animation: moveLeft 60s linear infinite;
 }
 
 @keyframes moveLeft {
