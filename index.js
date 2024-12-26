@@ -9,12 +9,21 @@ const makeTrashElements = (trashCount) => {
   const num3 = generateRandomNumberInLimits(11);
   const num4 = generateRandomNumberInLimits(11);
 
+  /** Change trash container margin on mobile screens. */
+  const h = window.innerHeight;
+  console.log(h);
+  const hClass = h < 700 ? 'top-[40%]' : 'top-1/2';
+
+  if (h < 700) {
+
+  }
+
   return trashCount === 1
-    ? `<div class='trash absolute top-1/2 right-0 h-18 w-18 bg-lightgreen rounded-full'>
+    ? `<div class='trash absolute ${hClass} right-0 h-18 w-18 bg-lightgreen rounded-full'>
           <img src='./images/trash-${num1}.png' class='absolute top-1/2 -left-1.5 -translate-y-1/2 min-h-18 h-18 w-20 max-w-none' alt='Trash'>  
         </div>`
     : trashCount === 2
-      ? `<div class='flex flex-col space-y-3 absolute top-1/2 -translate-y-1/2 right-2'>
+      ? `<div class='flex flex-col space-y-3 absolute ${hClass} -translate-y-1/2 right-2'>
           <div class='trash top-1/2 right-0 h-18 w-18 bg-lightgreen rounded-full'>
             <img src='./images/trash-${num1}.png' class='absolute top-1/2 -left-1.5 -translate-y-1/2 min-h-18 h-18 w-20 max-w-none' alt='Trash'>  
           </div>
@@ -22,7 +31,7 @@ const makeTrashElements = (trashCount) => {
             <img src='./images/trash-${num2}.png' class='absolute top-1/2 -left-1.5 -translate-y-1/2 min-h-18 h-18 w-20 max-w-none' alt='Trash'>  
           </div>
         </div>`
-      : `<div class='flex flex-col space-y-3 absolute top-1/2 -translate-y-1/2 right-2'>
+      : `<div class='flex flex-col space-y-3 absolute ${hClass} -translate-y-1/2 right-2'>
           <div class='trash h-18 w-18 bg-lightgreen rounded-full -ml-5'>
             <img src='./images/trash-${num1}.png' class='absolute top-1/2 -left-1.5 -translate-y-1/2 min-h-18 h-18 w-20 max-w-none' alt='Trash'>
           </div>
@@ -36,10 +45,11 @@ const makeTrashElements = (trashCount) => {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  const gameContainer = document.getElementById('game-container');
+  const trashContainer = document.getElementById('trash-container');
   /** Start game, and create trash to put into buckets. */
   const game = () => {
     let lives = 100000000000;
-    const gameContainer = document.getElementById('game-container');
     let position = 0;
     const speed = 0;
     let trashElements;
@@ -67,8 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const trashCount = 3;
 
         // console.log(trashElements);
-
-        gameContainer.insertAdjacentHTML('beforeend', makeTrashElements(trashCount));
+        trashContainer.insertAdjacentHTML('beforeend', makeTrashElements(trashCount));
 
         // After trash is no longer visible, remove it
         ticks++;
@@ -76,7 +85,7 @@ window.addEventListener('DOMContentLoaded', () => {
         //console.log(trashElements?.map(element => element.style.opacity));
         //console.log('recomputing trash elements');
         trashElements = Array.from(document.getElementsByClassName('trash'))
-          //.filter(element => window.getComputedStyle(element).opacity > 0);
+        //.filter(element => window.getComputedStyle(element).opacity > 0);
         //console.log('new trash elements:', trashElements);
 
         // Remove oldest element
@@ -124,7 +133,9 @@ window.addEventListener('DOMContentLoaded', () => {
             //console.log('removing with index', leftViewportIndex);
             //console.log('There are', trashElements.length, 'trash elements left');
             const livesElement = document.getElementById('lives');
-            livesElement.innerText = lives;
+            if (livesElement) {
+              livesElement.innerText = lives;
+            }
           }
         });
       }
@@ -178,10 +189,10 @@ window.addEventListener('DOMContentLoaded', () => {
         const bottomMargin = binTop + binHeight * 0.2;
         if (!isBinOne) {
           console.log('X between', leftMargin, 'and', rightMargin, 'and Y between', topMargin, 'and', bottomMargin);
-/*           console.log('LEFT MARGIN:', leftMargin);
-          console.log('RIGHT MARGIN:', rightMargin);
-          console.log('TOP MARGIN:', topMargin);
-          console.log('BOTTOM MARGIN:', bottomMargin); */
+          /*           console.log('LEFT MARGIN:', leftMargin);
+                    console.log('RIGHT MARGIN:', rightMargin);
+                    console.log('TOP MARGIN:', topMargin);
+                    console.log('BOTTOM MARGIN:', bottomMargin); */
         }
 
         console.log('trash image left:', trashImageLeft, 'trash image top:', trashImageTop);
